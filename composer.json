@@ -1,7 +1,7 @@
 {
-    "name": "jclg/php-slack-bot",
+    "name": "rodrigolinsr/php-slack-bot",
     "description": "Slack bot user written in PHP",
-    "homepage": "https://github.com/jclg/php-slack-bot",
+    "homepage": "https://github.com/rodrigolinsr/php-slack-bot",
     "license": "MIT",
     "require": {
         "semako/phpws": "1.0.1",
