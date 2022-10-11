@@ -211,7 +211,9 @@ class Bot
         if (is_null($response)) {
             throw new \Exception('Error when decoding body ('.$body.').');
         }
+
         $this->context = $response;
+
         if (isset($response['error'])) {
             throw new \Exception($response['error']);
         }
@@ -220,6 +222,25 @@ class Bot
         if (is_null($this->logger)) {
             $this->initLogger();
         }
+
+        $url = 'https://slack.com/api/users.conversations';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url.'?'.http_build_query($this->params));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $body = curl_exec($ch);
+        $response = json_decode($body, true);
+        $this->context['channels'] = $response['channels'];
+
+        $url = 'https://slack.com/api/users.list';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url.'?'.http_build_query($this->params));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $body = curl_exec($ch);
+        $response = json_decode($body, true);
+
+        $this->context['users'] = $response['members'];
+        $this->context['groups'] = [];
+        $this->context['ims'] = [];
     }
 
     public function loadInternalCommands()
